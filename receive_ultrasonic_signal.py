@@ -11,20 +11,14 @@ GPIO.gpio_claim_output(h, TRIG)
 GPIO.gpio_claim_input(h, ECHO)
 
 def detect_ultrasonic_signal():
-    GPIO.gpio_write(h, TRIG, 0)
-    time.sleep(2)
+    print("Listening for ultrasonic signals...")
 
-    # Send a brief pulse to trigger
-    GPIO.gpio_write(h, TRIG, 1)
-    time.sleep(0.00001)
-    GPIO.gpio_write(h, TRIG, 0)
-
-    # Wait for ECHO to go high
+    # Wait for ECHO to go high (signal detected)
     while GPIO.gpio_read(h, ECHO) == 0:
-        pass  # Wait until the signal starts
+        pass  # Keep waiting until a signal is received
 
     print("Received ultrasonic signal")
-
+   
 # Main program
 if __name__ == '__main__':
     try:
