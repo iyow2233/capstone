@@ -1,0 +1,51 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import wave
+import sys
+from scipy.fftpack import fft
+
+# Load WAV file
+wav_filename = "test_drone_1m.wav" 
+
+# Open the WAV file
+wf = wave.open(wav_filename, "rb")
+
+# Extract Audio Parameters
+n_channels = wf.getnchannels()
+sample_width = wf.getsampwidth()
+frame_rate = wf.getframerate()
+n_frames = wf.getnframes()
+
+print(f"Channels: {n_channels}, Sample Width: {sample_width}, Frame Rate: {frame_rate}, Frames: {n_frames}")
+
+# Read and convert the audio data to numpy array
+signal = wf.readframes(n_frames)
+signal = np.frombuffer(signal, dtype=np.int16)
+
+# Close the WAV file
+wf.close()
+
+# Generate time axis
+time = np.linspace(0, len(signal) / frame_rate, num=len(signal))
+
+# Plot waveform
+plt.figure(figsize=(12, 4))
+plt.plot(time, signal, label="Audio Waveform")
+plt.xlabel("Time (s)")
+plt.ylabel("Amplitude")
+plt.title("Waveform of Audio File")
+plt.legend()
+plt.show()
+
+# FFT (Frequency Analysis)
+N = len(signal)
+freqs = np.fft.fftfreq(N, 1 / frame_rate)
+fft_values = np.abs(fft(signal))
+
+# Plot frequency spectrum
+plt.figure(figsize=(12, 4))
+plt.plot(freqs[:N // 2], fft_values[:N // 2])  # Only plot positive frequencies
+plt.xlabel("Frequency (Hz)")
+plt.ylabel("Magnitude")
+plt.title("Frequency Spectrum (FFT)")
+plt.show()
