@@ -1,6 +1,8 @@
 import lgpio as GPIO
 import time
 import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+from collections import deque
 
 # Set pins
 TRIG = 23  # Associate pin 23 to TRIG
@@ -10,11 +12,13 @@ ECHO = 24  # Associate pin 24 to ECHO
 h = GPIO.gpiochip_open(0)
 GPIO.gpio_claim_output(h, TRIG)
 GPIO.gpio_claim_input(h, ECHO)
-# Lists to store data for plotting
-timestamps = []
-durations = []
+
+# Data storage (keeping a fixed size for smoother live plotting)
+timestamps = deque(maxlen=50)  # Store only the last 50 timestamps
+durations = deque(maxlen=50)   # Store only the last 50 signal durations
 
 def detect_ultrasonic_signal():
+    """Detects an ultrasonic signal and logs the timestamp & duration."""
     print("Listening for ultrasonic signals...")
 
     # Wait for ECHO to go high (signal detected)
@@ -32,23 +36,34 @@ def detect_ultrasonic_signal():
     pulse_duration = pulse_end - pulse_start  # Calculate duration
     timestamp = time.strftime("%H:%M:%S", time.localtime(pulse_start))  # Only time format
     
-    # Store data
+    # Store the latest data for live plotting
     timestamps.append(timestamp)
     durations.append(pulse_duration)
 
     print(f"[{timestamp}] Received ultrasonic signal | Duration: {pulse_duration:.6f} seconds")
 
-def plot_graph():
-    """ Function to plot the signal durations over time """
-    plt.figure(figsize=(10, 5))
-    plt.plot(timestamps, durations, marker='o', linestyle='-', color='b', label="Signal Duration")
-    plt.xlabel("Time (HH:MM:SS)")
-    plt.ylabel("Signal Duration (seconds)")
-    plt.title("Ultrasonic Signal Detection Over Time")
-    plt.xticks(rotation=45)
-    plt.legend()
-    plt.grid()
-    plt.show()
+# Setup real-time graph
+fig, ax = plt.subplots()
+ax.set_xlabel("Time (HH:MM:SS)")
+ax.set_ylabel("Signal Duration (seconds)")
+ax.set_title("Live Ultrasonic Signal Detection")
+line, = ax.plot([], [], marker='o', linestyle='-', color='b')
+
+def update_plot(frame):
+    """Updates the live plot with new data."""
+    if timestamps:
+        ax.clear()
+        ax.set_xlabel("Time (HH:MM:SS)")
+        ax.set_ylabel("Signal Duration (seconds)")
+        ax.set_title("Live Ultrasonic Signal Detection")
+        ax.plot(timestamps, durations, marker='o', linestyle='-', color='b')
+        ax.set_xticklabels(timestamps, rotation=45)
+        ax.grid()
+
+    return line,
+
+# Initialize live updating graph
+ani = animation.FuncAnimation(fig, update_plot, interval=1000)
 
 # Main program
 if __name__ == '__main__':
