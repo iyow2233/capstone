@@ -35,6 +35,7 @@ plt.xlabel("Time (s)")
 plt.ylabel("Amplitude")
 plt.title("Waveform of Audio File")
 plt.legend()
+plt.savefig("waveform_plot.png", dpi=300)  # Save the waveform plot
 plt.show()
 
 # FFT (Frequency Analysis)
@@ -48,4 +49,7 @@ plt.plot(freqs[:N // 2], fft_values[:N // 2])  # Only plot positive frequencies
 plt.xlabel("Frequency (Hz)")
 plt.ylabel("Magnitude")
 plt.title("Frequency Spectrum (FFT)")
+plt.savefig("frequency_spectrum.png", dpi=300)  # Save the frequency spectrum plot
 plt.show()
+
+print("Plots saved as 'waveform_plot.png' and 'frequency_spectrum.png'")
