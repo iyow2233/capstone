@@ -6,7 +6,7 @@ FORMAT = pyaudio.paInt16  # 16-bit format
 CHANNELS = 1              # Mono
 RATE = 44100              # Sampling rate
 CHUNK = 1024              # Buffer size
-RECORD_SECONDS = 10        # Short test recording
+RECORD_SECONDS = 20        # Short test recording
 OUTPUT_FILENAME = "test_drone.wav"
 
 # Initialize PyAudio
