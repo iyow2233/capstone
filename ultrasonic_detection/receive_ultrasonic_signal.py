@@ -79,4 +79,4 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         print("Listening stopped by User")
         GPIO.gpiochip_close(h)
-        plot_graph()  # Show final graph before exiting
+        plt.show()  # Show final graph before exiting
