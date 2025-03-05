@@ -51,14 +51,17 @@ line, = ax.plot([], [], marker='o', linestyle='-', color='b')
 
 def update_plot(frame):
     """Updates the live plot with new data."""
-    if timestamps:
-        ax.clear()
-        ax.set_xlabel("Time (HH:MM:SS)")
-        ax.set_ylabel("Signal Duration (seconds)")
-        ax.set_title("Live Ultrasonic Signal Detection")
-        ax.plot(timestamps, durations, marker='o', linestyle='-', color='b')
-        ax.set_xticklabels(timestamps, rotation=45)
-        ax.grid()
+    if not timestamps:
+        timestamps.append("00:00:00")  # Placeholder timestamp
+        durations.append(0)  # Default zero duration to show a line
+    
+    ax.clear()
+    ax.set_xlabel("Time (HH:MM:SS)")
+    ax.set_ylabel("Signal Duration (seconds)")
+    ax.set_title("Live Ultrasonic Signal Detection")
+    ax.plot(timestamps, durations, marker='o', linestyle='-', color='b')
+    ax.set_xticklabels(timestamps, rotation=45)
+    ax.grid()
 
     return line,
 
