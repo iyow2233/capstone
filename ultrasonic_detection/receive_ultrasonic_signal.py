@@ -5,12 +5,12 @@ import matplotlib.animation as animation
 from collections import deque
 
 # Set pins
-TRIG = 23  # Associate pin 23 to TRIG
+#TRIG = 23  # Associate pin 23 to TRIG
 ECHO = 24  # Associate pin 24 to ECHO
 
 # Open the GPIO chip and set the GPIO direction
 h = GPIO.gpiochip_open(0)
-GPIO.gpio_claim_output(h, TRIG)
+#GPIO.gpio_claim_output(h, TRIG)
 GPIO.gpio_claim_input(h, ECHO)
 
 # Data storage (keeping a fixed size for smoother live plotting)
