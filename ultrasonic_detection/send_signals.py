@@ -22,8 +22,18 @@ def send_ultrasonic_signal():
     GPIO.gpio_write(h, TRIG, 0)
     print("Pulse sent.")
 
+    # Start recording the time when the wave is sent
+    while GPIO.gpio_read(h, ECHO) == 0:
+        pulse_start = time.time()
+
+    # Record time of arrival
     while GPIO.gpio_read(h, ECHO) == 1:
-        print("Pulse detected.")
+        pulse_end = time.time()
+
+    # Calculate the difference in times
+    pulse_duration = pulse_end - pulse_start
+
+    print(pulse_duration)
 
 # Main program
 if __name__ == '__main__':
