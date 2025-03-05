@@ -7,7 +7,7 @@ CHANNELS = 1              # Mono
 RATE = 44100              # Sampling rate
 CHUNK = 1024              # Buffer size
 RECORD_SECONDS = 10        # Short test recording
-OUTPUT_FILENAME = "test_audio.wav"
+OUTPUT_FILENAME = "test_drone.wav"
 
 # Initialize PyAudio
 audio = pyaudio.PyAudio()
