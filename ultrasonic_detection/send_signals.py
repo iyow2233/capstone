@@ -2,7 +2,7 @@ import lgpio as GPIO
 import time
 
 # Set pin
-TRIG = 17  # Associate pin 23 to TRIG (signal sender)
+TRIG = 17  # Associate pin 17 to TRIG (signal sender)
 
 # Open the GPIO chip and set the GPIO direction
 h = GPIO.gpiochip_open(0)
