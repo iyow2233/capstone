@@ -4,8 +4,11 @@ import wave
 import sys
 from scipy.fftpack import fft
 
+if len(sys.argv) < 2:
+        print("Usage: python test_sound_plot.py <audio_file>")
+        return
 # Load WAV file
-wav_filename = "test_drone_1m.wav" 
+wav_filename = sys.argv[1]
 
 # Open the WAV file
 wf = wave.open(wav_filename, "rb")
