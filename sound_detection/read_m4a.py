@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import librosa
 import librosa.display
+import sys
 
 def main():
     # Check if the user provided a filename as an argument
