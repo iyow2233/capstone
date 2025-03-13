@@ -4,6 +4,7 @@ import wave
 import sys
 from scipy.fftpack import fft
 
+
 if len(sys.argv) < 2:
         print("Usage: python test_sound_plot.py <audio_file>")
         return
@@ -56,3 +57,6 @@ plt.savefig("frequency_spectrum.png", dpi=300)  # Save the frequency spectrum pl
 plt.show()
 
 print("Plots saved as 'waveform_plot.png' and 'frequency_spectrum.png'")
+
+if __name__ == "__main__":
+    main()
