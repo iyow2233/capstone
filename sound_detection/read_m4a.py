@@ -3,17 +3,35 @@ import matplotlib.pyplot as plt
 import librosa
 import librosa.display
 import sys
+import os
+from pydub import AudioSegment
+
+def convert_m4a_to_wav(input_filename):
+    """Converts an M4A file to WAV format for librosa to process."""
+    output_filename = "temp_converted.wav"
+    audio = AudioSegment.from_file(input_filename, format="m4a")
+    audio.export(output_filename, format="wav")
+    return output_filename
 
 def main():
-    # Check if the user provided a filename as an argument
     if len(sys.argv) < 2:
         print("Usage: python read_m4a.py <audio_file>")
         return
     
     input_filename = sys.argv[1]
 
+    # Check if the file exists
+    if not os.path.exists(input_filename):
+        print("Error: File not found.")
+        return
+
+    # Convert M4A to WAV if necessary
+    if input_filename.lower().endswith(".m4a"):
+        print("Converting M4A to WAV...")
+        input_filename = convert_m4a_to_wav(input_filename)
+
     try:
-        # Load audio file (supports WAV, M4A, MP3, etc.)
+        # Load the audio file
         signal, sample_rate = librosa.load(input_filename, sr=None)
     except Exception as e:
         print(f"Error: Unable to read the file. Details: {e}")
@@ -31,7 +49,7 @@ def main():
     plt.ylabel("Amplitude")
     plt.title("Waveform of Audio File")
     plt.legend()
-    plt.savefig("waveform_plot.png", dpi=300)  # Save the waveform plot
+    plt.savefig("waveform_plot.png", dpi=300)
     plt.show()
 
     # FFT (Frequency Analysis)
@@ -41,14 +59,18 @@ def main():
 
     # Plot frequency spectrum
     plt.figure(figsize=(12, 4))
-    plt.plot(freqs[:N // 2], fft_values[:N // 2])  # Only plot positive frequencies
+    plt.plot(freqs[:N // 2], fft_values[:N // 2])
     plt.xlabel("Frequency (Hz)")
     plt.ylabel("Magnitude")
     plt.title("Frequency Spectrum (FFT)")
-    plt.savefig("frequency_spectrum.png", dpi=300)  # Save the frequency spectrum plot
+    plt.savefig("frequency_spectrum.png", dpi=300)
     plt.show()
 
     print("Plots saved as 'waveform_plot.png' and 'frequency_spectrum.png'")
+
+    # Cleanup temporary WAV file if converted
+    if input_filename == "temp_converted.wav":
+        os.remove(input_filename)
 
 if __name__ == "__main__":
     main()
