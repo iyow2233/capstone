@@ -29,7 +29,7 @@ try:
         "-x", "0"
     ]
 
-    print("Starting GPS spoofing transmission for 5 minutes...")
+    print("Starting GPS spoofing transmission for 4 minutes...")
 
     process = subprocess.Popen(transmit_command)
 
@@ -39,7 +39,7 @@ try:
     process.send_signal(signal.SIGINT)
     process.wait()
 
-    print("Transmission stopped after 5 minutes.")
+    print("Transmission stopped after 4 minutes.")
 
 except subprocess.CalledProcessError as e:
     print(f"Command failed: {e}")
