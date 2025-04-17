@@ -16,6 +16,8 @@ try:
     # Generate gpssim.bin
     subprocess.run(
         [binary_path, "-b", "8", "-e", ephemeris_file, "-l", location],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
         check=True
     )
 
