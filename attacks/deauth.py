@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 # Automated WiFi Deauthentication Tool for Security Testing
-# Fixed version with enhanced safety features and CSV parsing
 
 import os
 import sys
